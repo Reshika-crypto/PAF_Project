@@ -37,4 +37,25 @@ public class PaymentAndFundService {
 		String output = PayObj.insertPayment(pId, prName, pyDate, pyAmount);
 		return output;
 	}
+	//update
+	
+	@PUT
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+
+	public String updatePayment(String paymentData) {
+		// Convert the input string to a JSON object
+		JsonObject PayObject = new JsonParser().parse(paymentData).getAsJsonObject();
+
+		// Read the values from the JSON object
+		String pId = PayObject.get("pId").getAsString();
+		String prName = PayObject.get("prName").getAsString();
+		String pyDate = PayObject.get("pyDate").getAsString();
+		String pyAmount = PayObject.get("pyAmount").getAsString();
+		
+		String output = PayObj.updatePayment(pId, prName, pyDate, pyAmount);
+		return output;
+	}
+	
 }

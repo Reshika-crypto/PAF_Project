@@ -15,8 +15,17 @@ import org.jsoup.nodes.Document;	//For XML
 public class OrderService 
 {	
 	
-	Order OrderObj = new Order();
+	//retrieve order details from the Order Table
+		Order OrderObj = new Order(); 
+		@GET
+		@Path("/") 
+		@Produces(MediaType.TEXT_HTML) 
 	
+		public String readOrder() 
+		{ 
+			return OrderObj.readOrder();
+	 	
+		}
 	
 	//insert order details into the Order table
 		@POST

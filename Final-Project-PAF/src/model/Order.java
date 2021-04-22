@@ -3,7 +3,7 @@ package model;
 import java.sql.*;
 
 public class Order 
-{ 	//A common method to connect to the DB
+{ 	//connecting to the Database
 	private Connection connect() 
 	{ 
 		Connection con = null; 
@@ -12,7 +12,6 @@ public class Order
 		{ 
 			Class.forName("com.mysql.jdbc.Driver"); 
  
-			//Provide the correct details: DBServer/DBName, username, password 
 			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/paf_project", "root", ""); 
 		} 
 		catch (Exception e) 
@@ -20,6 +19,7 @@ public class Order
 		return con; 
 	} 
 	
+	//retrieving order details from the database
 	public String readOrder() 
 	 { 
 			String output = ""; 
@@ -29,7 +29,7 @@ public class Order
 				if (con == null) 
 				{return "Error while connecting to the database for reading."; } 
 			
-				// Prepare the table to be displayed
+				// Table layout
 				output = "<table border='1'><tr><th>Order Name</th>" +
 						"<th>Order Value</th>" + 
 						"<th>Order Quantity</th>" +
@@ -39,7 +39,7 @@ public class Order
 				Statement stmt = con.createStatement(); 
 				ResultSet rs = stmt.executeQuery(query); 
 	 
-				// iterate through the rows in the result set
+				// Display each row from the table
 				while (rs.next()) 
 				{ 
 					String OrderID = Integer.toString(rs.getInt("OrderID")); 
@@ -47,12 +47,12 @@ public class Order
 					String OrderValue = Double.toString(rs.getDouble("OrderValue")); 
 					String OrderQuantity = rs.getString("OrderQuantity"); 
 	 
-					// Add into the table
+					// Inserting order details to the table to be displayed
 					output += "<tr><td>" + OrderName + "</td>";  
 					output += "<td>" + OrderValue + "</td>"; 
 					output += "<td>" + OrderQuantity + "</td>"; 
 	 
-					// buttons
+					// Update and Delete Buttons
 					output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
 							+ "<td><form method='post' action='Order.jsp'>"
 							+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
@@ -61,7 +61,7 @@ public class Order
 				} 
 				con.close(); 
 	 
-				// Complete the table
+				// Display the completed table
 				output += "</table>"; 
 			} 
 			catch (Exception e) 

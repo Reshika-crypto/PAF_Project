@@ -1,13 +1,14 @@
 package com;
 
 import model.Order;
-import javax.ws.rs.*; 
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.*; 	//REST Service
+import javax.ws.rs.core.MediaType; 	//REST Service
 
-import com.google.gson.*;
-import org.jsoup.*;
-import org.jsoup.parser.*; 
-import org.jsoup.nodes.Document;
+import com.google.gson.*;	//JSON
+
+import org.jsoup.*;	//For XML
+import org.jsoup.parser.*; 	//For XML
+import org.jsoup.nodes.Document;	//For XML
 
 @Path("/Order") 
 
@@ -24,5 +25,6 @@ public class OrderService
 	 return OrderObj.readOrder();
 	 
 	 }
+	
 }
  

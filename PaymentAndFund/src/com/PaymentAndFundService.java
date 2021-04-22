@@ -57,5 +57,19 @@ public class PaymentAndFundService {
 		String output = PayObj.updatePayment(pId, prName, pyDate, pyAmount);
 		return output;
 	}
+	//delete
 	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deletePayment(String paymentData) {
+		// Convert the input string to an XML document
+		Document doc = Jsoup.parse(paymentData, "", Parser.xmlParser());
+
+		// Read the value from the element
+		String pId = doc.select("pId").text();
+		String output = PayObj.deletePayment(pId);
+		return output;
+	}
 }

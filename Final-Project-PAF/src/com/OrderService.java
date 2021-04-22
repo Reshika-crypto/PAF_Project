@@ -15,16 +15,16 @@ import org.jsoup.nodes.Document;	//For XML
 public class OrderService 
 {	
 	//retrieve order details from the Order Table
-	Order OrderObj = new Order(); 
-	@GET
-	@Path("/") 
-	@Produces(MediaType.TEXT_HTML) 
-	
-	public String readOrder() 
-	 { 
-	 return OrderObj.readOrder();
-	 
-	 }
+		Order OrderObj = new Order(); 
+		@GET
+		@Path("/") 
+		@Produces(MediaType.TEXT_HTML) 
+		
+		public String readOrder() 
+		 { 
+		 return OrderObj.readOrder();
+		 
+		 }
 	
 	
 	//insert order details into the Order table
@@ -42,6 +42,24 @@ public class OrderService
 		}
 		
 	
+	//update order details in the Order table
+		@PUT
+		@Path("/") 
+		@Consumes(MediaType.APPLICATION_JSON) 
+		@Produces(MediaType.TEXT_PLAIN) 
+		public String updateOrder(String OrderData) 
+		{ 
+		//Convert the input string to a JSON object 
+		 JsonObject OrderObject = new JsonParser().parse(OrderData).getAsJsonObject(); 
+		 
+		//Read the values
+		 String OrderID = OrderObject.get("OrderID").getAsString(); 
+		 String OrderName = OrderObject.get("OrderName").getAsString(); 
+		 String OrderValue = OrderObject.get("OrderValue").getAsString(); 
+		 String OrderQuantity = OrderObject.get("OrderQuantity").getAsString(); 
+		 String output = OrderObj.updateOrder(OrderID,OrderName, OrderValue, OrderQuantity); 
+		 return output; 
+		}	
 	
 }
  

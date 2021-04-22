@@ -72,4 +72,40 @@ public class Order
 			
 			return output; 
 	 } 
+	
+	
+	//insert order details to the database
+	public String insertOrder(String name, String value, String quantity) 
+	{ 
+		String output = "";
+		
+		try
+		{ 
+			Connection con = connect(); 
+			
+			if (con == null) 
+			{return "Error while connecting to the database for inserting."; } 
+			
+			String query = "insert into paf_project.order(OrderID, OrderName, OrderValue, OrderQuantity) values(?, ?, ?, ?)"; 
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+			// binding values  
+			preparedStmt.setInt(1, 0); 
+			preparedStmt.setString(2, name); 
+			preparedStmt.setDouble(3, Double.parseDouble(value)); 
+			preparedStmt.setString(4, quantity); 
+			
+			preparedStmt.execute(); 
+			con.close();
+			
+			output = "Order details are inserted successfully"; 
+		} 
+		catch (Exception e) 
+		{ 
+			 output = "Error while inserting the Order details."; 
+			 System.err.println(e.getMessage()); 
+		} 
+		return output; 
+	} 
+	
 } 		

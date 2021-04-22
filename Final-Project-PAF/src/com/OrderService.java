@@ -26,5 +26,22 @@ public class OrderService
 	 
 	 }
 	
+	
+	//insert order details into the Order table
+		@POST
+		@Path("/") 
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
+		@Produces(MediaType.TEXT_PLAIN) 
+		public String insertOrder(@FormParam("OrderName") String OrderName,
+									@FormParam("OrderValue") String OrderValue,
+									@FormParam("OrderQuantity") String OrderQuantity) 
+		
+		{ 
+		 String output = OrderObj.insertOrder(OrderName, OrderValue, OrderQuantity); 
+		 return output; 
+		}
+		
+	
+	
 }
  

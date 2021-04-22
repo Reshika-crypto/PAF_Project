@@ -23,4 +23,18 @@ public class PaymentAndFundService {
 	public String readPayment() {
 		return PayObj.readPayment();
 	}
+	
+	//insert
+
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String insertPayment(@FormParam("pId") String pId, 
+			@FormParam("prName") String prName,
+			@FormParam("pyDate") String pyDate,
+			@FormParam("pyAmount") String pyAmount) {
+		String output = PayObj.insertPayment(pId, prName, pyDate, pyAmount);
+		return output;
+	}
 }

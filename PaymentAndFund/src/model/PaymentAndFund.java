@@ -8,6 +8,19 @@ import java.sql.Statement;
 
 public class PaymentAndFund {
 
-	
+	private Connection connect() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			// Provide the correct details: DBServer/DBName, username, password
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/paf_project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"root", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
 
 }

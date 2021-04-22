@@ -120,5 +120,36 @@ public class PaymentAndFund {
 		return output;
 		
 	}
+	public String deletePayment(String pId) {
+
+		String output = "";
+
+		try {
+			Connection con = connect();
+
+			if (con == null) {
+				return "Error while connecting to the database for deleting.";
+			}
+
+			// create a prepared statement
+			String query = "delete from paymentservice where pId=?";
+
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+
+			// binding values
+			preparedStmt.setInt(1, Integer.parseInt(pId));
+
+			// execute the statement
+			preparedStmt.execute();
+			con.close();
+
+			output = "Deleted successfully";
+		} catch (Exception e) {
+			output = "Error while deleting the Payment.";
+			System.err.println(e.getMessage());
+		}
+
+		return output;
+	}
 
 }

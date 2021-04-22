@@ -84,5 +84,40 @@ public class PaymentAndFund {
 		}
 		return output;
 	}
+	
+	public String updatePayment(String pId, String prName, String pyDate, String pyAmount) {
+		String output = "";
+
+		try {
+			Connection con = connect();
+
+			if (con == null) {
+				return "Error while connecting to the database for updating.";
+			}
+
+			// create a prepared statement
+			String query = "UPDATE paymentservice SET prName=?,pyDate=?,pyAmount=? WHERE pId=?";
+
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+
+			// binding values
+
+			preparedStmt.setString(1, prName);
+			preparedStmt.setString(2, pyDate);
+			preparedStmt.setString(3, pyAmount);
+			preparedStmt.setInt(4, Integer.parseInt(pId));
+
+			// execute the statement
+			preparedStmt.execute();
+			con.close();
+
+			output = "Updated successfully";
+		} catch (Exception e) {
+			output = "Error while updating the Payment.";
+			System.err.println(e.getMessage());
+		}
+
+		return output;
+	}
 
 }

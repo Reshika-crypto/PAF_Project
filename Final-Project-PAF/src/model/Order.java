@@ -108,4 +108,34 @@ public class Order
 		return output; 
 	} 
 	
+	public String updateOrder(String ID, String name, String value, String quantity)		
+	{ 
+		 String output = ""; 
+		 try
+		 { 
+			 Connection con = connect(); 
+			 if (con == null) 
+			 {return "Error while connecting to the database for updating."; } 
+			 
+			 String query = "UPDATE paf_project.order SET OrderName=?,OrderValue=?,OrderQuantity=? WHERE OrderID=?";
+			 PreparedStatement preparedStmt = con.prepareStatement(query);
+			 
+			 // binding values
+			 preparedStmt.setString(1, name); 
+			 preparedStmt.setDouble(2, Double.parseDouble(value)); 
+			 preparedStmt.setString(3, quantity); 
+			 preparedStmt.setInt(4, Integer.parseInt(ID));
+			 
+			 preparedStmt.execute(); 
+			 con.close(); 
+			 output = "Order details are Updated successfully"; 
+		 } 
+		 catch (Exception e) 
+		 { 
+			 output = "Error while updating the Order details."; 
+			 System.err.println(e.getMessage()); 
+		 } 
+		 return output; 
+	} 
+	
 } 		

@@ -77,7 +77,5 @@ public class OrderService
 			String output = OrderObj.deleteOrder(OrderID); 
 			return output; 
 		}
-
-		
 }
  

@@ -78,7 +78,7 @@ public class Order
 	
 	
 	//insert order details to the database
-	public String insertOrder(String name, String value, String quantity) 
+	public String insertOrder(String description, String value, String quantity, String bname) 
 	{ 
 		String output = "";
 		
@@ -89,14 +89,15 @@ public class Order
 			if (con == null) 
 			{return "Error while connecting to the database for inserting."; } 
 			
-			String query = "insert into paf_project.order(OrderID, OrderName, OrderValue, OrderQuantity) values(?, ?, ?, ?)"; 
+			String query = "insert into paf_project.order(OrderID, OrderDescription, OrderValue, OrderQuantity, BuyerName) values(?, ?, ?, ?, ?)"; 
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
 			// binding values  
 			preparedStmt.setInt(1, 0); 
-			preparedStmt.setString(2, name); 
+			preparedStmt.setString(2, description); 
 			preparedStmt.setDouble(3, Double.parseDouble(value)); 
 			preparedStmt.setString(4, quantity); 
+			preparedStmt.setString(5, bname);
 			
 			preparedStmt.execute(); 
 			con.close();

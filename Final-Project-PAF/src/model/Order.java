@@ -108,6 +108,7 @@ public class Order
 		return output; 
 	} 
 	
+	//update order details to the database
 	public String updateOrder(String ID, String name, String value, String quantity)		
 	{ 
 		 String output = ""; 
@@ -138,4 +139,32 @@ public class Order
 		 return output; 
 	} 
 	
+	//delete order details to the database
+	public String deleteOrder(String OrderID) 
+	{ 
+		 	String output = ""; 
+		 	try
+		 	{ 
+		 		Connection con = connect(); 
+		 		if (con == null) 
+		 		{return "Error while connecting to the database for deleting."; } 
+		 
+		 		String query = "delete from paf_project.order where OrderID=?"; 
+		 		PreparedStatement preparedStmt = con.prepareStatement(query); 
+		 
+		 		// binding values
+		 		preparedStmt.setInt(1, Integer.parseInt(OrderID)); 
+		 
+		 		preparedStmt.execute(); 
+		 		con.close(); 
+		 		
+		 		output = "Order details Deleted successfully"; 
+		 } 
+		 catch (Exception e) 
+		 { 
+			 output = "Error while deleting the Order details."; 
+			 System.err.println(e.getMessage()); 
+		 } 
+		 return output; 
+	} 
 } 		

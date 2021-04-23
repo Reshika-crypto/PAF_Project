@@ -30,9 +30,10 @@ public class Order
 				{return "Error while connecting to the database for reading."; } 
 			
 				// Table layout
-				output = "<table border='1'><tr><th>Order Name</th>" +
+				output = "<table border='1'><tr><th>Order Description</th>" +
 						"<th>Order Value</th>" + 
 						"<th>Order Quantity</th>" +
+						"<th>Buyer Name </th>" +
 						"<th>Update</th><th>Remove</th></tr>"; 
 	 
 				String query = " select * from paf_project.order "; 
@@ -43,15 +44,17 @@ public class Order
 				while (rs.next()) 
 				{ 
 					String OrderID = Integer.toString(rs.getInt("OrderID")); 
-					String OrderName = rs.getString("OrderName"); 
+					String OrderDescription = rs.getString("OrderDescription"); 
 					String OrderValue = Double.toString(rs.getDouble("OrderValue")); 
 					String OrderQuantity = rs.getString("OrderQuantity"); 
+					String BuyerName =rs.getNString("BuyerName");
 	 
 					// Inserting order details to the table to be displayed
-					output += "<tr><td>" + OrderName + "</td>";  
+					output += "<tr><td>" + OrderDescription + "</td>";  
 					output += "<td>" + OrderValue + "</td>"; 
-					output += "<td>" + OrderQuantity + "</td>"; 
-	 
+					output += "<td>" + OrderQuantity + "</td>";
+					output += "<td>" + BuyerName + "</td>";
+					
 					// Update and Delete Buttons
 					output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
 							+ "<td><form method='post' action='Order.jsp'>"

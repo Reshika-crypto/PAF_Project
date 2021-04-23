@@ -32,12 +32,13 @@ public class OrderService
 		@Path("/") 
 		@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
 		@Produces(MediaType.TEXT_PLAIN) 
-		public String insertOrder(@FormParam("OrderName") String OrderName,
+		public String insertOrder(@FormParam("OrderDescription") String OrderDescription,
 									@FormParam("OrderValue") String OrderValue,
-									@FormParam("OrderQuantity") String OrderQuantity) 
+									@FormParam("OrderQuantity") String OrderQuantity,
+									@FormParam("BuyerName") String BuyerName) 
 				
 		{		
-			 String output = OrderObj.insertOrder(OrderName, OrderValue, OrderQuantity); 
+			 String output = OrderObj.insertOrder(OrderDescription, OrderValue, OrderQuantity, BuyerName); 
 			 return output;	 
 		}
 		
@@ -54,10 +55,11 @@ public class OrderService
 		 
 		//Read the values
 		 String OrderID = OrderObject.get("OrderID").getAsString(); 
-		 String OrderName = OrderObject.get("OrderName").getAsString(); 
+		 String OrderDescription = OrderObject.get("OrderDescription").getAsString(); 
 		 String OrderValue = OrderObject.get("OrderValue").getAsString(); 
-		 String OrderQuantity = OrderObject.get("OrderQuantity").getAsString(); 
-		 String output = OrderObj.updateOrder(OrderID,OrderName, OrderValue, OrderQuantity); 
+		 String OrderQuantity = OrderObject.get("OrderQuantity").getAsString();
+		 String BuyerName = OrderObject.get("BuyerName").getAsString();
+		 String output = OrderObj.updateOrder(OrderID,OrderDescription, OrderValue, OrderQuantity, BuyerName); 
 		 return output; 
 		}	
 	

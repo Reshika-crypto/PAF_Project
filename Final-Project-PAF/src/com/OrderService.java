@@ -61,5 +61,23 @@ public class OrderService
 		 return output; 
 		}	
 	
+		
+	//delete order details in the Order table
+		@DELETE
+		@Path("/") 
+		@Consumes(MediaType.APPLICATION_XML) 
+		@Produces(MediaType.TEXT_PLAIN) 
+		public String deleteOrder(String OrderData) 
+		{ 
+			//Convert the input string to an XML document
+			Document doc = Jsoup.parse(OrderData, "", Parser.xmlParser()); 
+	 
+			//Read the value from the element <OrderID>
+			String OrderID = doc.select("OrderID").text(); 
+			String output = OrderObj.deleteOrder(OrderID); 
+			return output; 
+		}
+
+		
 }
  

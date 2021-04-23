@@ -47,7 +47,7 @@ public class Order
 					String OrderDescription = rs.getString("OrderDescription"); 
 					String OrderValue = Double.toString(rs.getDouble("OrderValue")); 
 					String OrderQuantity = rs.getString("OrderQuantity"); 
-					String BuyerName =rs.getNString("BuyerName");
+					String BuyerName =rs.getString("BuyerName");
 	 
 					// Inserting order details to the table to be displayed
 					output += "<tr><td>" + OrderDescription + "</td>";  

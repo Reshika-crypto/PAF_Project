@@ -113,7 +113,7 @@ public class Order
 	} 
 	
 	//update order details to the database
-	public String updateOrder(String ID, String name, String value, String quantity)		
+	public String updateOrder(String ID, String description, String value, String quantity, String bname)		
 	{ 
 		 String output = ""; 
 		 try
@@ -122,14 +122,15 @@ public class Order
 			 if (con == null) 
 			 {return "Error while connecting to the database for updating."; } 
 			 
-			 String query = "UPDATE paf_project.order SET OrderName=?,OrderValue=?,OrderQuantity=? WHERE OrderID=?";
+			 String query = "UPDATE paf_project.order SET OrderDescription=?,OrderValue=?,OrderQuantity=?,BuyerName=? WHERE OrderID=?";
 			 PreparedStatement preparedStmt = con.prepareStatement(query);
 			 
 			 // binding values
-			 preparedStmt.setString(1, name); 
+			 preparedStmt.setString(1, description); 
 			 preparedStmt.setDouble(2, Double.parseDouble(value)); 
 			 preparedStmt.setString(3, quantity); 
-			 preparedStmt.setInt(4, Integer.parseInt(ID));
+			 preparedStmt.setString(4, bname);
+			 preparedStmt.setInt(5, Integer.parseInt(ID));
 			 
 			 preparedStmt.execute(); 
 			 con.close(); 

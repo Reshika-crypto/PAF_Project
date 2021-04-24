@@ -57,21 +57,7 @@ public class ProductManagementService
 		}
 
 
-		@DELETE
-		@Path("/")
-		@Consumes(MediaType.APPLICATION_XML)
-		@Produces(MediaType.TEXT_PLAIN)
-		public String deleteProduct(String productData)
-		{
-		//Convert the input string to an XML document
-		 Document doc = Jsoup.parse(productData, "", Parser.xmlParser());
-
-		//Read the value from the element <itemID>
-		 String product_id = doc.select("product_id").text();
-		 System.out.println(product_id);
-		 String output = productObj.deleteProduct(product_id);
-		return output;
-		}
+		
 }
 
 

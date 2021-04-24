@@ -122,5 +122,40 @@ public class ProductManagement
 		return output;
 	}
 	
+	public String updateProduct(String pID, String pname, String pdesc, String pQuality, String price)
+	{
+		 String output = "";
+		 try
+		 {
+			 Connection con = connect();
+		 
+			 if (con == null)
+			 {return "Error while connecting to the database for updating."; }
+		 
+			 // create a prepared statement
+			 String query = "UPDATE paf_project.product SET product_name=?,product_description=?,product_quality=?,product_price=? WHERE product_id=?";
+		 
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+		 
+			 // binding values
+			 preparedStmt.setString(5, pID);
+			 preparedStmt.setString(1, pname);
+			 preparedStmt.setString(2, pdesc);
+			 preparedStmt.setString(3, pQuality);
+			 preparedStmt.setDouble(4, Double.parseDouble(price));
+		 
+			 // execute the statement
+			 preparedStmt.execute();
+			 con.close();
+		 
+			 output = "Updated successfully";
+		 }
+		 catch (Exception e)
+		 {
+			 output = "Error while updating the item.";
+			 System.err.println(e.getMessage());
+		 }
+		 return output;
+	}
 		
 } 

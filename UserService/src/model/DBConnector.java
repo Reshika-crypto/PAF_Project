@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class DBConnector {
 	private static final String host = "jdbc:mysql://127.0.0.1";
 	private static final String port = "3306";
-	private static final String dbname = "paf_project";
+	private static final String dbname = "paf_user_service";
 	private static final String username = "root";
 	private static final String password = "";
 	

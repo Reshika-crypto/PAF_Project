@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "d05c30d7-3187-4824-9b20-314ee6fb8756",
+		"name": "User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/UserService/usermanagementservice/user-management",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"UserService",
+						"usermanagementservice",
+						"user-management"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a new User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "hiruni",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "hirunirathnayaka@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "contactNo",
+							"value": "0701121234",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "132,kandy",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8085/UserService/usermanagementservice/user-management",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"UserService",
+						"usermanagementservice",
+						"user-management"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an Existing User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userID\":65,\r\n    \"username\":\"nimal\",\r\n    \"email\":\"nimalrafadasa@gmail.com\",\r\n    \"contactNo\":771234567,\r\n    \"address\":\"154,dsdgsdtwd,hdytefd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/UserService/usermanagementservice/user-management",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"UserService",
+						"usermanagementservice",
+						"user-management"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an Existing User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<userData>\r\n    <userID>65</userID>\r\n</userData>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/UserService/usermanagementservice/user-management",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"UserService",
+						"usermanagementservice",
+						"user-management"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Specific User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/UserService/usermanagementservice/user-management/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"UserService",
+						"usermanagementservice",
+						"user-management",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

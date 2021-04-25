@@ -57,7 +57,8 @@ public class PaymentAndFundService {
 		String output = PayObj.updatePayment(pId, prName, pyDate, pyAmount);
 		return output;
 	}
-	//delete
+	//delete 
+	//part
 	
 	@DELETE
 	@Path("/")

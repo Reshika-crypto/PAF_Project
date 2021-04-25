@@ -1,11 +1,12 @@
 package model;
 
 import java.sql.*;
+import java.util.List;
 
 public class UserManagement extends DBConnector
 { 
 
-	public String insertUserManagement( String uname, String uemail, String contactno, String uaddress, String upassword) 
+	public String insertUserManagement( String uname, String uemail, String contactno, String uaddress, String upassword, String usertype) 
 	{ 
 		String output = ""; 
 		try
@@ -15,8 +16,8 @@ public class UserManagement extends DBConnector
 			{return "Error while connecting to the database for inserting."; } 
 
 			// create a prepared statement
-			String query = " insert into user (`userID`,`username`,`email`,`contactNo`,`address`,`password`)"
-					+ " values (?, ?, ?, ?, ?,?)"; 
+			String query = " insert into user (`userID`,`username`,`email`,`contactNo`,`address`,`password`,`user_type`)"
+					+ " values (?, ?, ?, ?, ? , ? , ?)"; 
 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 
@@ -27,6 +28,7 @@ public class UserManagement extends DBConnector
 			preparedStmt.setString(4, contactno); 
 			preparedStmt.setString(5, uaddress);
 			preparedStmt.setString(6, upassword);
+			preparedStmt.setString(7, usertype);
 
 			// execute the statement3
 			preparedStmt.execute(); 
@@ -57,6 +59,7 @@ public class UserManagement extends DBConnector
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
 					"<th>Address</th>"+
+					"<th>User Type</th>"+
 					//"<th>Password</th>" +
 					"</tr>"; 
 
@@ -72,6 +75,7 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
+				String user_type = rs.getString("user_type");
 				//String password = rs.getNString("password");
 
 				// Add into the html table
@@ -80,6 +84,7 @@ public class UserManagement extends DBConnector
 				output += "<td>" + email + "</td>"; 
 				output += "<td>" + contactNo + "</td>"; 
 				output += "<td>" + address + "</td>";
+				output += "<td>" + user_type + "</td>";
 				//output += "<td>" + password + "</td>";
 
 				// buttons
@@ -115,6 +120,7 @@ public class UserManagement extends DBConnector
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
 					"<th>Address</th>" +
+					"<th>User Type</th>" +
 					//"<th>Password</th>" +
 					"</tr>"; 
 
@@ -135,6 +141,7 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
+				String user_type = rs.getString("user_type");
 				//String password = rs.getString("password");
 
 
@@ -146,6 +153,7 @@ public class UserManagement extends DBConnector
 				rowOutput += "<td>" + email + "</td>"; 
 				rowOutput += "<td>" + contactNo + "</td>"; 
 				rowOutput += "<td>" + address + "</td>";
+				rowOutput += "<td>" + user_type + "</td>";
 				//rowOutput += "<td>" + password + "</td>";
 
 				// buttons
@@ -164,7 +172,7 @@ public class UserManagement extends DBConnector
 		return output; 
 	} 
 
-	public String updateUserManagement(String uid, String uname, String uemail, int contactno, String address, String upassword)
+	public String updateUserManagement(String uid, String uname, String uemail, int contactno, String address, String upassword, String usertype)
 	{ 
 		String output = ""; 
 		try
@@ -175,7 +183,7 @@ public class UserManagement extends DBConnector
 			{return "Error while connecting to the database for updating."; } 
 
 			// create a prepared statement
-			String query = "UPDATE user SET username=?,email=?,contactNo=?,address=?,password=? WHERE userID=?"; 
+			String query = "UPDATE user SET username=?,email=?,contactNo=?,address=?,password=?,user_type=? WHERE userID=?"; 
 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 
@@ -185,7 +193,8 @@ public class UserManagement extends DBConnector
 			preparedStmt.setInt(3, contactno); 
 			preparedStmt.setString(4, address);
 			preparedStmt.setString(5, upassword);
-			preparedStmt.setInt(6, Integer.parseInt(uid)); 
+			preparedStmt.setString(6, usertype);
+			preparedStmt.setInt(7, Integer.parseInt(uid)); 
 
 			// execute the statement
 			int count = preparedStmt.executeUpdate(); 
@@ -245,16 +254,16 @@ public class UserManagement extends DBConnector
 		return output; 
 	}
 
-	public boolean validateUser(String username, String password) {
+	public UserAccount validateUser(String username, String password) {
 		
-
+		UserAccount userAcc = null;
 		try
 		{ 
 			Connection con = connect(); 
 
 			if (con == null) 
 			{
-				return false;
+				return null;
 			} 
 
 			String query = "select * from user where username=? AND password = ?"; 
@@ -264,24 +273,18 @@ public class UserManagement extends DBConnector
 			preparedStmt.setString(1, username ); 
 			preparedStmt.setString(2, password );
 			ResultSet rs = preparedStmt.executeQuery();
-
-			int rowCount = 0;
+			
 			
 			while(rs.next()) {
-				System.out.println("TEST:: username " + rs.getNString("username"));
-				rowCount++;
+				userAcc = new UserAccount(rs.getString("username"), rs.getNString("user_type"));
 			}
 			
-			if(rowCount>0) {
-				return true;
-			}
-			
-			return false;
+			return userAcc;
 		} 
 		catch (Exception e) 
 		{ 
 			e.printStackTrace();
-			return false;
+			return null;
 		} 
 	}
 

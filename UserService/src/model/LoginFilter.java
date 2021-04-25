@@ -6,6 +6,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import com.UserManagementService;
+import com.google.gson.JsonObject;
 import com.sun.jersey.core.util.Base64;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
@@ -14,13 +16,13 @@ public class LoginFilter implements ContainerRequestFilter {
 
 	public static final String HEADER = "Authorization";
 	public static final String PREFIX = "Basic";
-	private UserManagement user = new UserManagement();
+	private UserManagementService user = new UserManagementService();
 
 	@Override
 	public ContainerRequest filter(ContainerRequest request) {
 		try {
 			//allow sign up for anyone
-			if(request.getPath().equals("user-management") && request.getMethod().equals("POST")) {
+			if(request.getPath().equals("users") && request.getMethod().equals("POST")) {
 				return request;
 			}
 
@@ -46,7 +48,14 @@ public class LoginFilter implements ContainerRequestFilter {
 			String password = basicAuthDeoded.split(":")[1];
 
 			System.out.println("TEST::: UN: "+username + " PW: " + password);
-			if (user.validateUser(username, password)) {
+			
+			JsonObject credentials = new JsonObject();
+			credentials.addProperty("username", username);
+			credentials.addProperty("password", password);
+			credentials.addProperty("service", "user");
+			
+			
+			if (user.userLogin(credentials.toString()).equalsIgnoreCase("true")) {
 				return request;
 			}
 

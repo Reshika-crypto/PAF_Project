@@ -1,5 +1,6 @@
 package com;
 
+import model.UserAccount;
 import model.UserManagement;
 
 //For Rest Services
@@ -13,7 +14,7 @@ import com.google.gson.*;
 import org.jsoup.*; 
 import org.jsoup.parser.*; 
 import org.jsoup.nodes.Document; 
-@Path("/user-management") 
+@Path("/users") 
 
 public class UserManagementService 
 { 
@@ -46,9 +47,10 @@ public class UserManagementService
 			@FormParam("email") String email, 
 			@FormParam("contactNo") String contactNo, 
 			@FormParam("address") String address,
-			@FormParam("password") String password)
+			@FormParam("password") String password,
+			@FormParam("user_type") String user_type)
 	{ 
-		String output = UserManagementObj.insertUserManagement(username, email, contactNo, address, password); 
+		String output = UserManagementObj.insertUserManagement(username, email, contactNo, address, password, user_type); 
 		return output; 
 	}
 
@@ -60,11 +62,48 @@ public class UserManagementService
 	{ 
 		try {
 		JsonObject credentialsJSON = new JsonParser().parse(credentials).getAsJsonObject();
-		if(UserManagementObj.validateUser(credentialsJSON.get("username").getAsString(), credentialsJSON.get("password").getAsString())){
-			return "true";
-		} else {
+
+		if(!(credentialsJSON.has("username") || credentialsJSON.has("password") || credentialsJSON.has("service") )) {
 			return "false";
 		}
+		
+		UserAccount userAccount = UserManagementObj.validateUser(credentialsJSON.get("username").getAsString(), credentialsJSON.get("password").getAsString());
+		
+		if(userAccount == null) {
+			return "false";
+		}
+
+		String service = credentialsJSON.get("service").getAsString().toLowerCase();
+		
+		if(service.equalsIgnoreCase("research")) {
+			if(!(userAccount.getUser_type().toLowerCase().equalsIgnoreCase("admin") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("researcher") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("funder"))) {
+				return "false";
+			}
+			return "true";
+		} else if(service.equalsIgnoreCase("product")) {
+			if(!(userAccount.getUser_type().toLowerCase().equalsIgnoreCase("admin") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("researcher") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("buyer"))) {
+				return "false";
+			}
+			return "true";
+		} else if(service.equalsIgnoreCase("order")) {
+			if(!(userAccount.getUser_type().toLowerCase().equalsIgnoreCase("admin") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("buyer"))) {
+				return "false";
+			}
+			return "true";
+		} else if(service.equalsIgnoreCase("payment")) {
+			if(!(userAccount.getUser_type().toLowerCase().equalsIgnoreCase("admin") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("buyer") || userAccount.getUser_type().toLowerCase().equalsIgnoreCase("funder"))) {
+				return "false";
+			}
+			return "true";
+		} else if(service.equalsIgnoreCase("user")) {
+			if(!(userAccount.getUser_type().toLowerCase().equalsIgnoreCase("admin"))) {
+				return "false";
+			}
+			return "true";
+		}
+		
+		return "false";
+		
 		} catch (Exception e) {
 			System.out.println(e);
 			return "false";
@@ -88,7 +127,8 @@ public class UserManagementService
 		int contactNo = userObject.get("contactNo").getAsInt(); 
 		String address = userObject.get("address").getAsString();
 		String password = userObject.get("password").getAsString();
-		String output = UserManagementObj.updateUserManagement(userID, username, email, contactNo, address, password); 
+		String user_type = userObject.get("user_type").getAsString();
+		String output = UserManagementObj.updateUserManagement(userID, username, email, contactNo, address, password, user_type); 
 		return output; 
 	}
 

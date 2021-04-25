@@ -7,10 +7,10 @@ public class Researcher {
 			Connection con = null; 
 			try
 			{ 
-				Class.forName("com.mysql.cj.jdbc.Driver"); 
+				Class.forName("com.mysql.jdbc.Driver"); 
 	 
 				//Provide the correct details: DBServer/DBName, username, password 
-				con = DriverManager.getConnection("jdbc:mysql://localhost/paf_project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", ""); 
+				con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/paf_project", "root", ""); 
 			} 
 			catch (Exception e) 
 				{
@@ -34,7 +34,7 @@ public class Researcher {
 					return "Error while connecting to the database for inserting."; 
 				} 
 			// create a prepared statement
-			String query = " insert into researcher(`researcherId`,`name`,`emailaddress`,`workOnProduct`,`productCategory`,`purposeOfResearch`,`previousProducts`)"+ " values (?, ?, ?, ?, ?, ?, ?)"; 
+			String query = " insert into paf_project.researcher(`researcherId`,`name`,`emailaddress`,`workOnProduct`,`productCategory`,`purposeOfResearch`,`previousProducts`)"+ " values (?, ?, ?, ?, ?, ?, ?)"; 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 			// binding values
 			preparedStmt.setInt(1, Integer.parseInt(researcherId)); 
@@ -66,20 +66,20 @@ public class Researcher {
 			if (con == null) 
 			{return "Error while connecting to the database for reading."; } 
 			// Prepare the html table to be displayed
-			output = "<table border='1'>"
-					+ "<tr>	<th>Id</th>"
-							+ "<th>Researcher Name</th>" 
-							+ "<th>Email Address</th>" 
-							+ "<th>Work on products</th>"
-							+ "<th>productCategory</th>" 
-							+ "<th>purpose Of Research</th>"
-							+ "<th>previous Products</th>"
-							+ "<th>Update</th><th>Remove</th></tr>"; 
+			output = "<table border='1'><tr><th>Id</th><th>Researcher Name</th>" +
+							"<th>Email Address</th>" +
+							"<th>Work on products</th>"+
+							"<th>productCategory</th>" +
+							"<th>purpose Of Research</th>"+
+							"<th>previous Products</th>"+
+							"<th>Update</th><th>Remove</th></tr>"; 
 	 
-			String query = "select * from researcher"; 
+			String query = "select * from paf_project.researcher"; 
 			Statement stmt = con.createStatement(); 
 			ResultSet rs = stmt.executeQuery(query); 
+			
 			// iterate through the rows in the result set
+			
 			while (rs.next()) 
 				{ 
 					String researcherId = rs.getString("researcherId"); 
@@ -100,8 +100,11 @@ public class Researcher {
 					output += "<td>" + purposeOfResearch + "</td>"; 
 					output += "<td>" + previousProducts + "</td>"; 
 					// buttons
-					output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"+ "<td><form method='post' action='items.jsp'>"+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-					+ "<input name='researcherId' type='hidden' value='" + researcherId + "'>" + "</form></td></tr>"; 
+					output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
+								+ "<td><form method='post' action='researcher.jsp'>"
+								+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
+								+ "<input name='researcherId' type='hidden' value='" + researcherId 
+								+ "'>" + "</form></td></tr>"; 
 				} 
 				con.close(); 
 				// Complete the html table
@@ -125,7 +128,7 @@ public class Researcher {
 				if (con == null) 
 				{return "Error while connecting to the database for updating."; } 
 				// create a prepared statement
-				String query = "UPDATE researcher SET name=?,emailaddress=?,workOnProduct=?,productCategory=?,purposeOfResearch=?,previousProducts=? WHERE researcherId=?"; 
+				String query = "UPDATE paf_project.researcher SET name=?,emailaddress=?,workOnProduct=?,productCategory=?,purposeOfResearch=?,previousProducts=? WHERE researcherId=?"; 
 						PreparedStatement preparedStmt = con.prepareStatement(query); 
 				// binding values
 				preparedStmt.setString(1, name); 
@@ -158,7 +161,7 @@ public class Researcher {
 			if (con == null) 
 				{return "Error while connecting to the database for deleting."; } 
 				// create a prepared statement
-				String query = "delete from researcher where researcherId=?"; 
+				String query = "delete from paf_project.researcher where researcherId=?"; 
 				PreparedStatement preparedStmt = con.prepareStatement(query); 
 				// binding values
 				preparedStmt.setInt(1, Integer.parseInt(researcherId)); 

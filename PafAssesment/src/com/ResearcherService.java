@@ -12,7 +12,8 @@ import org.jsoup.*;
 import org.jsoup.parser.*; 
 import org.jsoup.nodes.Document; 
 
-@Path("/Researchers")
+
+@Path("/Researcher")
 
 public class ResearcherService {
 	

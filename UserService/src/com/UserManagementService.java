@@ -8,7 +8,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType; 
 
 //For JSON
-import com.google.gson.*; 
+import com.google.gson.*;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
 
 //For XML
 import org.jsoup.*; 
@@ -32,10 +34,29 @@ public class UserManagementService
 	@GET
 	@Path("/{user_ID}") 
 	@Produces(MediaType.TEXT_HTML)
-
 	public String readUserManagement(@PathParam("user_ID") String userid) 
 	{ 
 		return UserManagementObj.readUserByID(userid);
+	}
+
+
+	@GET
+	@Path("/{researcher_ID}/product-list")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String readProductListByResearcherId(@PathParam("researcher_ID") String researcher_ID) 
+	{ 		
+		Client client = Client.create();
+		WebResource wr = client.resource("http://localhost:8081/ProductService/productmanagementservice/products/" + researcher_ID);
+		String output = wr.get(String.class);
+		//System.out.println("response: " +output);
+		
+		if (output!=null) {
+			JsonObject res = new JsonObject();
+			res.addProperty("researcher_id", researcher_ID);
+			res.add("products", new JsonParser().parse(output).getAsJsonObject().get("products").getAsJsonArray());
+			return res.toString();
+		}
+		return "Failed to retreive list of products of the given researcher's id";
 	}
 
 	@POST

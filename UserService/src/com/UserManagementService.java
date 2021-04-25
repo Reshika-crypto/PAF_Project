@@ -45,9 +45,10 @@ public class UserManagementService
 		public String insertUserManagement(@FormParam("username") String username, 
 									@FormParam("email") String email, 
 									@FormParam("contactNo") String contactNo, 
-									@FormParam("address") String address) 
+									@FormParam("address") String address,
+									@FormParam("password") String password)
 		{ 
-		 String output = UserManagementObj.insertUserManagement(username, email, contactNo, address); 
+		 String output = UserManagementObj.insertUserManagement(username, email, contactNo, address, password); 
 		return output; 
 		}
 		
@@ -66,8 +67,9 @@ public class UserManagementService
 			String username = userObject.get("username").getAsString(); 
 			String email = userObject.get("email").getAsString(); 
 			int contactNo = userObject.get("contactNo").getAsInt(); 
-			String address = userObject.get("address").getAsString(); 
-			String output = UserManagementObj.updateUserManagement(userID, username, email, contactNo, address); 
+			String address = userObject.get("address").getAsString();
+			String password = userObject.get("password").getAsString();
+			String output = UserManagementObj.updateUserManagement(userID, username, email, contactNo, address, password); 
 		return output; 
 		}
 		

@@ -5,7 +5,7 @@ import java.sql.*;
 public class UserManagement extends DBConnector
 { 
 
-	public String insertUserManagement( String uname, String uemail, String contactno, String uaddress) 
+	public String insertUserManagement( String uname, String uemail, String contactno, String uaddress, String upassword) 
 	{ 
 		String output = ""; 
 		try
@@ -15,8 +15,8 @@ public class UserManagement extends DBConnector
 			{return "Error while connecting to the database for inserting."; } 
 
 			// create a prepared statement
-			String query = " insert into user (`userID`,`username`,`email`,`contactNo`,`address`)"
-					+ " values (?, ?, ?, ?, ?)"; 
+			String query = " insert into user (`userID`,`username`,`email`,`contactNo`,`address`,`password`)"
+					+ " values (?, ?, ?, ?, ?,?)"; 
 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 
@@ -26,6 +26,7 @@ public class UserManagement extends DBConnector
 			preparedStmt.setString(3, uemail); 
 			preparedStmt.setString(4, contactno); 
 			preparedStmt.setString(5, uaddress);
+			preparedStmt.setString(6, upassword);
 
 			// execute the statement3
 			preparedStmt.execute(); 
@@ -55,7 +56,8 @@ public class UserManagement extends DBConnector
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
-					"<th>Address</th></tr>"; 
+					"<th>Address</th>"+
+					"<th>Password</th></tr>"; 
 
 			String query = "select * from user"; 
 			Statement stmt = con.createStatement(); 
@@ -69,13 +71,15 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
+				String password = rs.getNString("password");
 
 				// Add into the html table
 				output += "<tr><td>" + userID + "</td>";
 				output += "<td>" + username + "</td>"; 
 				output += "<td>" + email + "</td>"; 
 				output += "<td>" + contactNo + "</td>"; 
-				output += "<td>" + address + "</td>"; 
+				output += "<td>" + address + "</td>";
+				output += "<td>" + password + "</td>";
 
 				// buttons
 				output += "</tr>"; 
@@ -109,7 +113,8 @@ public class UserManagement extends DBConnector
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
-					"<th>Address</th></tr>"; 
+					"<th>Address</th>" +
+					"<th>Password</th></tr>"; 
 
 			String query = "select * from user where userID=?"; 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
@@ -128,6 +133,7 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
+				String password = rs.getString("password");
 
 
 
@@ -137,7 +143,8 @@ public class UserManagement extends DBConnector
 				output += "<td>" + username + "</td>"; 
 				rowOutput += "<td>" + email + "</td>"; 
 				rowOutput += "<td>" + contactNo + "</td>"; 
-				rowOutput += "<td>" + address + "</td>"; 
+				rowOutput += "<td>" + address + "</td>";
+				rowOutput += "<td>" + password + "</td>";
 
 				// buttons
 				rowOutput += "</tr>"; 
@@ -155,7 +162,7 @@ public class UserManagement extends DBConnector
 		return output; 
 	} 
 
-	public String updateUserManagement(String uid, String uname, String uemail, int contactno, String address)
+	public String updateUserManagement(String uid, String uname, String uemail, int contactno, String address, String upassword)
 	{ 
 		String output = ""; 
 		try
@@ -166,7 +173,7 @@ public class UserManagement extends DBConnector
 			{return "Error while connecting to the database for updating."; } 
 
 			// create a prepared statement
-			String query = "UPDATE user SET username=?,email=?,contactNo=?,address=? WHERE userID=?"; 
+			String query = "UPDATE user SET username=?,email=?,contactNo=?,address=?,password=? WHERE userID=?"; 
 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 
@@ -174,8 +181,9 @@ public class UserManagement extends DBConnector
 			preparedStmt.setString(1, uname); 
 			preparedStmt.setString(2, uemail); 
 			preparedStmt.setInt(3, contactno); 
-			preparedStmt.setString(4, address); 
-			preparedStmt.setInt(5, Integer.parseInt(uid)); 
+			preparedStmt.setString(4, address);
+			preparedStmt.setString(5, upassword);
+			preparedStmt.setInt(6, Integer.parseInt(uid)); 
 
 			// execute the statement
 			int count = preparedStmt.executeUpdate(); 

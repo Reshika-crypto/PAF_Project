@@ -2,8 +2,8 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Apr 24, 2021 at 04:53 PM
+-- Host: 127.0.0.1:3308
+-- Generation Time: Apr 25, 2021 at 01:59 PM
 -- Server version: 8.0.21
 -- PHP Version: 7.3.21
 
@@ -34,15 +34,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(30) NOT NULL,
   `contactNo` int NOT NULL,
   `address` varchar(60) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `user_type` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`userID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `username`, `email`, `contactNo`, `address`) VALUES
-(2, 'hiruni', 'hirunirathnayaka@gmail.com', 701121234, '132,kandy');
+INSERT INTO `user` (`userID`, `username`, `email`, `contactNo`, `address`, `password`, `user_type`) VALUES
+(1, 'AchiniPR', 'achini@gadgetbadget.lk', 702020202, 'Kurunegala', '123', 'Admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

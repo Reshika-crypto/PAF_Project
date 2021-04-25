@@ -57,7 +57,8 @@ public class UserManagement extends DBConnector
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
 					"<th>Address</th>"+
-					"<th>Password</th></tr>"; 
+					//"<th>Password</th>" +
+					"</tr>"; 
 
 			String query = "select * from user"; 
 			Statement stmt = con.createStatement(); 
@@ -71,7 +72,7 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
-				String password = rs.getNString("password");
+				//String password = rs.getNString("password");
 
 				// Add into the html table
 				output += "<tr><td>" + userID + "</td>";
@@ -79,7 +80,7 @@ public class UserManagement extends DBConnector
 				output += "<td>" + email + "</td>"; 
 				output += "<td>" + contactNo + "</td>"; 
 				output += "<td>" + address + "</td>";
-				output += "<td>" + password + "</td>";
+				//output += "<td>" + password + "</td>";
 
 				// buttons
 				output += "</tr>"; 
@@ -114,7 +115,8 @@ public class UserManagement extends DBConnector
 			output = "<table border='1'><tr><th>User ID</th><th>User Name</th><th>Email</th>" +
 					"<th>Contact No</th>" + 
 					"<th>Address</th>" +
-					"<th>Password</th></tr>"; 
+					//"<th>Password</th>" +
+					"</tr>"; 
 
 			String query = "select * from user where userID=?"; 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
@@ -133,7 +135,7 @@ public class UserManagement extends DBConnector
 				String email = rs.getString("email"); 
 				String contactNo =rs.getString("contactNo"); 
 				String address = rs.getString("address");
-				String password = rs.getString("password");
+				//String password = rs.getString("password");
 
 
 
@@ -144,7 +146,7 @@ public class UserManagement extends DBConnector
 				rowOutput += "<td>" + email + "</td>"; 
 				rowOutput += "<td>" + contactNo + "</td>"; 
 				rowOutput += "<td>" + address + "</td>";
-				rowOutput += "<td>" + password + "</td>";
+				//rowOutput += "<td>" + password + "</td>";
 
 				// buttons
 				rowOutput += "</tr>"; 
@@ -241,6 +243,46 @@ public class UserManagement extends DBConnector
 			System.err.println(e.getMessage()); 
 		} 
 		return output; 
+	}
+
+	public boolean validateUser(String username, String password) {
+		
+
+		try
+		{ 
+			Connection con = connect(); 
+
+			if (con == null) 
+			{
+				return false;
+			} 
+
+			String query = "select * from user where username=? AND password = ?"; 
+			PreparedStatement preparedStmt = con.prepareStatement(query); 
+
+			// binding values
+			preparedStmt.setString(1, username ); 
+			preparedStmt.setString(2, password );
+			ResultSet rs = preparedStmt.executeQuery();
+
+			int rowCount = 0;
+			
+			while(rs.next()) {
+				System.out.println("TEST:: username " + rs.getNString("username"));
+				rowCount++;
+			}
+			
+			if(rowCount>0) {
+				return true;
+			}
+			
+			return false;
+		} 
+		catch (Exception e) 
+		{ 
+			e.printStackTrace();
+			return false;
+		} 
 	}
 
 

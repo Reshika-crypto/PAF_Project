@@ -22,7 +22,7 @@ public class LoginFilter implements ContainerRequestFilter {
 	public ContainerRequest filter(ContainerRequest request) {
 		try {
 			//allow sign up for anyone
-			if(request.getPath().equals("users") && request.getMethod().equals("POST")) {
+			if((request.getPath().equals("users") || request.getPath().equals("users/login")) && request.getMethod().equals("POST")) {
 				return request;
 			}
 

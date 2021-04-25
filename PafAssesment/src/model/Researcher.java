@@ -158,7 +158,7 @@ public class Researcher {
 			if (con == null) 
 				{return "Error while connecting to the database for deleting."; } 
 				// create a prepared statement
-				String query = "delete researcher where researcherId=?"; 
+				String query = "delete from researcher where researcherId=?"; 
 				PreparedStatement preparedStmt = con.prepareStatement(query); 
 				// binding values
 				preparedStmt.setString(1, researcherId);

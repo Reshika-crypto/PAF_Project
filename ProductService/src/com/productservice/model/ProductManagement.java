@@ -1,25 +1,10 @@
-package model;
+package com.productservice.model;
 import java.sql.*;
 
-public class ProductManagement 
+public class ProductManagement extends DBConnector
 {
 	
-	//A common method to connect to the DB
-	private Connection connect()
-	 {
-		Connection con = null;
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-
-			//Provide the correct details: DBServer/DBName, username, password
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3308/paf_project", "root", "");
-		}
-		catch (Exception e)
-		{e.printStackTrace();}
-	 
-		return con;
-	 }
+	
 	
 	public String insertProduct(String pID, String pname, String pdesc, String pQuality, String price)
 	 {
@@ -33,7 +18,7 @@ public class ProductManagement
 	 
 				// create a prepared statement
 								
-				String query = "insert into paf_project.product (`product_id`,`product_name`,`product_description`,`product_quality`,`product_price`)"
+				String query = "insert into product (`product_id`,`product_name`,`product_description`,`product_quality`,`product_price`)"
 								+ " values (?, ?, ?, ?, ?)";
 	 
 				PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -133,7 +118,7 @@ public class ProductManagement
 			 {return "Error while connecting to the database for updating."; }
 		 
 			 // create a prepared statement
-			 String query = "UPDATE paf_project.product SET product_name=?,product_description=?,product_quality=?,product_price=? WHERE product_id=?";
+			 String query = "UPDATE product SET product_name=?,product_description=?,product_quality=?,product_price=? WHERE product_id=?";
 		 
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 		 

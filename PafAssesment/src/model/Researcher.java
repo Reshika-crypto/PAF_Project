@@ -2,23 +2,20 @@ package model;
 import java.sql.*;
 public class Researcher {
 	
-	private Connection connect() 
-	 { 
-			Connection con = null; 
-			try
-			{ 
-				Class.forName("com.mysql.jdbc.Driver"); 
-	 
-				//Provide the correct details: DBServer/DBName, username, password 
-				con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/paf_project", "root", ""); 
-			} 
-			catch (Exception e) 
-				{
-					e.printStackTrace();
-				} 
-	
-			return con; 
-	 }
+	private Connection connect() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			// Provide the correct details: DBServer/DBName, username, password
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3307/paf_project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"root", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
 	 
 	// Insert researcher details to the database 
 	//Create a method called InsertResearcher
@@ -34,10 +31,10 @@ public class Researcher {
 					return "Error while connecting to the database for inserting."; 
 				} 
 			// create a prepared statement
-			String query = " insert into paf_project.researcher(`researcherId`,`name`,`emailaddress`,`workOnProduct`,`productCategory`,`purposeOfResearch`,`previousProducts`)"+ " values (?, ?, ?, ?, ?, ?, ?)"; 
+			String query = " insert into researcher(`researcherId`,`name`,`emailaddress`,`workOnProduct`,`productCategory`,`purposeOfResearch`,`previousProducts`)"+ " values (?, ?, ?, ?, ?, ?, ?)"; 
 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 			// binding values
-			preparedStmt.setInt(1, Integer.parseInt(researcherId)); 
+			preparedStmt.setString(1, researcherId); 
 			preparedStmt.setString(2, name); 
 			preparedStmt.setString(3, emailaddress); 
 			preparedStmt.setString(4, workOnProduct); 
@@ -128,7 +125,7 @@ public class Researcher {
 				if (con == null) 
 				{return "Error while connecting to the database for updating."; } 
 				// create a prepared statement
-				String query = "UPDATE paf_project.researcher SET name=?,emailaddress=?,workOnProduct=?,productCategory=?,purposeOfResearch=?,previousProducts=? WHERE researcherId=?"; 
+				String query = "UPDATE researcher SET name=?,emailaddress=?,workOnProduct=?,productCategory=?,purposeOfResearch=?,previousProducts=? WHERE researcherId=?"; 
 						PreparedStatement preparedStmt = con.prepareStatement(query); 
 				// binding values
 				preparedStmt.setString(1, name); 
@@ -137,7 +134,7 @@ public class Researcher {
 				preparedStmt.setString(4, productCategory); 
 				preparedStmt.setString(5, purposeOfResearch); 
 				preparedStmt.setString(6, previousProducts); 
-				preparedStmt.setInt(7, Integer.parseInt(researcherId)); 
+				preparedStmt.setString(7, researcherId); 
 				// execute the statement
 				preparedStmt.execute(); 
 				con.close(); 
@@ -161,10 +158,10 @@ public class Researcher {
 			if (con == null) 
 				{return "Error while connecting to the database for deleting."; } 
 				// create a prepared statement
-				String query = "delete from paf_project.researcher where researcherId=?"; 
+				String query = "delete researcher where researcherId=?"; 
 				PreparedStatement preparedStmt = con.prepareStatement(query); 
 				// binding values
-				preparedStmt.setInt(1, Integer.parseInt(researcherId)); 
+				preparedStmt.setString(1, researcherId);
 				// execute the statement
 				preparedStmt.execute(); 
 				con.close(); 
